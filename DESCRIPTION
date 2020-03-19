@@ -1,0 +1,25 @@
+Type: package
+Package: Corona19
+Title: Explore Corona Data
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jake",
+           family = "Vestal",
+           role = c("aut", "cre"),
+           email = "jmvestal@gmail.com",
+           comment = c(ORCID = "0000-0002-2970-4795"))
+Description: Take a look at the effect of COVID-19. Updated as time permits.
+License: MIT + file LICENSE
+URL: https://github.com/JakeVestal/InteractiveTradeR
+BugReports: 
+    https://github.com/JakeVestal/InteractiveTradeR/issues
+Depends: 
+    R (>= 3.5.0)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+Imports: 
+    magrittr,
+    rlang (>= 0.1.2)
+Suggests: 
+    roxygen2
