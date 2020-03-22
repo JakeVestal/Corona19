@@ -1,0 +1,6 @@
+destination: docs
+url: https://jakevestal.github.io/Corona19/
+
+template:
+  params:
+    bootswatch: cyborg
