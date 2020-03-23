@@ -1,6 +1,10 @@
 ^LICENSE\.md$
 ^data-raw$
-^\.travis\.yml$
-^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^scratch$
+^inst/JHU_Data$
+^\.travis\.yml$
+^_pkgdown\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$

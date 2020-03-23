@@ -1,4 +1,3 @@
-Type: package
 Package: Corona19
 Title: Explore Corona Data
 Version: 0.0.0.9000
@@ -17,10 +16,17 @@ Depends:
     R (>= 3.5.0)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Imports: 
     magrittr,
-    rlang (>= 0.1.2)
+    rlang (>= 0.1.2),
+    dplyr,
+    lubridate,
+    tidyr,
+    purrr,
+    readr,
+    usethis,
+    tibble
 Suggests: 
     roxygen2,
     knitr,

@@ -8,6 +8,10 @@ os:
 r_check_args: " --no-examples"
 
 before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+before_deploy:
+  provider: script
+  script: Rscript -e 'Corona19:::refresh_corona_data()'
+  skip_cleanup: true
 deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github()'
