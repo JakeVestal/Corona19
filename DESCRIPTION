@@ -30,5 +30,6 @@ Imports:
 Suggests: 
     roxygen2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 2.1.0)
 VignetteBuilder: knitr

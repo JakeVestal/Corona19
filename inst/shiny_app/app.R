@@ -1,10 +1,11 @@
 # Corona19
 # By Jake Vestal
 
-library(shiny)
 library(Corona19)
-library(dygraphs)
 library(magrittr)
+library(shiny)
+library(shinyWidgets)
+library(dygraphs)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -13,15 +14,34 @@ ui <- fluidPage(
     titlePanel("Corona 19"),
     
     fluidRow(
-        multiInput(
-            inputId = "regions",
-            label = "Regions", 
-            choices = sort(unlist(unique(corona_data$region))),
-            options = list(
-                `live-search` = TRUE,
-                title = "Select a region"
+        sort(unlist(unique(corona_data$region))) %>% {
+            multiInput(
+                inputId = "regions",
+                label = "Countries :", 
+                choices = NULL,
+                width = "500px",
+                choiceNames = lapply(
+                    .,
+                    function(region){
+                        print(region)
+                        HTML(
+                            paste(
+                                tags$img(
+                                    src = country_codes %>% 
+                                        dplyr::filter(Country == region) %>%
+                                        dplyr::select(flag_url) %>%
+                                        unlist(use.names = FALSE),
+                                    width = 20, 
+                                    height = 15
+                                ), 
+                                region
+                            )
+                        )
+                    }
+                ),
+                choiceValues = .
             )
-        )
+        }
     ),
     dygraphOutput("region_time_series")
     

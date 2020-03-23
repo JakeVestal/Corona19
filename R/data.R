@@ -3,7 +3,7 @@ region_names_map <- function()(
   paste0(
     "@details Using a region map:\n\n",
     "\\tabular{",
-    utils::capture.output(refresh_corona_data) %>% {
+    readLines(file.path("data-raw", "refresh_Corona19.R")) %>% {
       tibble::tibble(
         "data" = .[(
           which(grepl("region,$", .)) + 1
@@ -79,3 +79,12 @@ NULL
 #' @name ivv
 #' 
 NULL
+
+#' Country Codes
+#' 
+#' A \link[tibble]{tibble} of country names and their abbreviations.
+#'
+#' @name country_codes
+#' 
+NULL
+
