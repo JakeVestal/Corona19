@@ -1,4 +1,3 @@
-
 print(paste0("Active Project: ", usethis::proj_get()))
 print(paste0("WD: )", getwd()))
 
@@ -13,7 +12,7 @@ corona_data <- list.files(
   purrr::imap(
     function(file_path, cdata_date){
       readr::read_csv(file_path) %>%
-        magrittr::set_colnames(tolower(colnames(.))) %>% 
+        magrittr::set_colnames(tolower(colnames(.))) %>%
         dplyr::mutate(
           "confirmed"   = tidyr::replace_na(.$confirmed, 0),
           "deaths"      = tidyr::replace_na(.$deaths, 0),
@@ -30,7 +29,7 @@ corona_data <- list.files(
   ) %>%
   purrr::reduce(dplyr::bind_rows) %>%
   dplyr::rename(
-    area        = "province/state", 
+    area        = "province/state",
     region      = "country/region",
     last_update = "last update"
   ) %>%
@@ -66,10 +65,10 @@ corona_data <- list.files(
       `UK`                         = "United Kingdom",
       `US`                         = "United States",
       `Viet Nam`                   = "Vietnam"
-    ) 
+    )
   ) %>%
   dplyr::distinct_at(
-    dplyr::vars("area", "region", "date"), 
+    dplyr::vars("area", "region", "date"),
     .keep_all = TRUE
   ) %>%
   dplyr::select("date", dplyr::everything())
@@ -80,7 +79,7 @@ country_codes <- xml2::read_html("https://www.iban.com/country-codes") %>%
   rvest::html_nodes("#myTable") %>%
   rvest::html_table() %>%
   .[[1]] %>%
-  tibble::as_tibble() %>% 
+  tibble::as_tibble() %>%
   dplyr::mutate(
     Country = dplyr::recode(
       .$Country,
