@@ -26,7 +26,8 @@ Imports:
     purrr,
     readr,
     usethis,
-    tibble
+    tibble,
+    xts
 Suggests: 
     roxygen2,
     knitr,
