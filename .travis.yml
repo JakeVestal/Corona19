@@ -2,3 +2,14 @@
 
 language: R
 cache: packages
+os:
+  - linux
+  - osx
+
+before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
+install:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then ./inst/scripts/refresh-data.sh; fi
+deploy:
+  provider: script
+  script: Rscript -e 'pkgdown::deploy_site_github()'
+  skip_cleanup: true
