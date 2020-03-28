@@ -27,7 +27,8 @@ Imports:
     readr,
     usethis,
     tibble,
-    xts
+    xts,
+    crayon
 Suggests: 
     roxygen2,
     knitr,

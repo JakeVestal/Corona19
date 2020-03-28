@@ -11,12 +11,18 @@ COVID-19 Daily Reports}} csv files in a single user-friendly \link[tibble]{tibbl
 \tabular{lllllll}{
   \strong{date}: Date for which the data apply. Derived from the filename of
   the csv file from which the data in the rest of the columns is drawn.\cr
+  \strong{FIPS}: Unique identifier for US Counties. See the full table of
+  FIPS codes
+  \href{https://www.nrcs.usda.gov/wps/portal/nrcs/detail/or/programs/?cid=nrcs143_013697}{here}.\cr
+  \strong{admin2}: Name of FIPS region (county). Applies to US only, and is
+  not complete in the dataset; i.e., not every state's data is parsed by
+  individual county.\cr
   \strong{area}: Same thing as \emph{province/state} in the original JHU
   data, renamed so as to get rid of the awkward "/".\cr
   \strong{region}: Same thing as \emph{country/region}, renamed for the same
   reason as "\emph{area}".\cr
-  \strong{confirmed}, \strong{recovered}, \strong{deaths}: As (albiet not
-  very precisely) defined in the
+  \strong{confirmed}, \strong{recovered}, \strong{deaths}, \strong{active}: 
+  As (albiet not very precisely) defined in the
   \href{https://github.com/CSSEGISandData/COVID-19/blob/5f3ba461a5a7ed5f72104e499804e31ca594b0b6/csse_covid_19_data/README.md}{JHU
   data}.\cr
   \strong{last_update}: Date-time stamp denoting when the information in the
@@ -28,5 +34,5 @@ COVID-19 Daily Reports}} csv files in a single user-friendly \link[tibble]{tibbl
 \details{
 Using a region map:
 
-\tabular{llllllllllllllllllllll}{\strong{Region}: \tab \strong{Includes data from}: \cr\code{Bahamas}: \tab "The Bahamas", "Bahamas The"\cr\code{China}: \tab "Mainland China"\cr\code{Congo}: \tab "Congo (Brazzaville)", "Congo (Kinshasa)", "Republic of the Congo"\cr\code{Czechia}: \tab "Czech Republic"\cr\code{Gambia}: \tab "The Gambia", "Gambia The"\cr\code{Hong Kong}: \tab "Hong Kong SAR"\cr\code{Iran}: \tab "Iran (Islamic Republic of)"\cr\code{Ireland}: \tab "Republic of Ireland"\cr\code{Ivory Coast}: \tab "Cote d'Ivoire"\cr\code{Macao}: \tab "Macao SAR", "Macau"\cr\code{Moldova}: \tab "Republic of Moldova"\cr\code{Palestine}: \tab "occupied Palestinian territory"\cr\code{Russia}: \tab "Russian Federation"\cr\code{Saint Martin}: \tab "St. Martin"\cr\code{Serbia}: \tab "Kosovo"\cr\code{South Korea}: \tab "Korea South", "Republic of Korea"\cr\code{Taiwan}: \tab "Taipei and environs", "Taiwan*"\cr\code{United Kingdom}: \tab "North Ireland", "UK"\cr\code{United States}: \tab "US"\cr\code{Vatican City}: \tab "Holy See"\cr\code{Vietnam}: \tab "Viet Nam"\cr}
+\tabular{lllllllllllllllllllllllll}{\strong{Region}: \tab \strong{Includes data from}: \cr\code{Bahamas}: \tab "The Bahamas", "Bahamas The"\cr\code{Cabo Verde}: \tab "Cape Verde"\cr\code{China}: \tab "Mainland China"\cr\code{Congo}: \tab "Congo (Brazzaville)", "Congo (Kinshasa)", "Republic of the Congo"\cr\code{Czechia}: \tab "Czech Republic"\cr\code{Diamond Princess}: \tab "Cruise Ship"\cr\code{Gambia}: \tab "The Gambia", "Gambia The"\cr\code{Hong Kong}: \tab "Hong Kong SAR"\cr\code{Iran}: \tab "Iran (Islamic Republic of)"\cr\code{Ireland}: \tab "Republic of Ireland"\cr\code{Ivory Coast}: \tab "Cote d'Ivoire"\cr\code{Macao}: \tab "Macao SAR", "Macau"\cr\code{Moldova}: \tab "Republic of Moldova"\cr\code{occupied Palestinian territory}: \tab "West Bank and Gaza"\cr\code{Russia}: \tab "Russian Federation"\cr\code{Saint Martin}: \tab "St. Martin"\cr\code{Serbia}: \tab "Kosovo"\cr\code{South Korea}: \tab "Korea South", "Republic of Korea"\cr\code{Taiwan}: \tab "Taipei and environs", "Taiwan*"\cr\code{Timor-Leste}: \tab "East Timor"\cr\code{United Kingdom}: \tab "North Ireland", "UK"\cr\code{United States}: \tab "US"\cr\code{Vatican City}: \tab "Holy See"\cr\code{Vietnam}: \tab "Viet Nam"\cr}
 }

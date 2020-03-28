@@ -11,60 +11,81 @@ corona_data <- list.files(
   stats::setNames(., gsub("(.*)\\.csv$", "\\1", basename(.))) %>%
   purrr::imap(
     function(file_path, cdata_date){
-      readr::read_csv(file_path) %>%
-        magrittr::set_colnames(tolower(colnames(.))) %>%
+      day_data <- readr::read_csv(file_path) %>%
+        magrittr::set_colnames(
+          gsub(" ", "_", trimws(colnames(.))) %>%
+            gsub("_$", "", .) %>%
+            tolower()
+        ) %>%
         dplyr::mutate(
           "confirmed"   = tidyr::replace_na(.$confirmed, 0),
           "deaths"      = tidyr::replace_na(.$deaths, 0),
           "recovered"   = tidyr::replace_na(.$recovered, 0),
-          "last update" = tryCatch(
-            lubridate::as_datetime(.$`last update`),
+          "last_update" = tryCatch(
+            lubridate::as_datetime(.$last_update),
             warning = function(w){
-              lubridate::mdy_hm(.$`last update`)
+              lubridate::mdy_hm(.$last_update)
             }
           ),
           "date"        = lubridate::mdy(cdata_date)
+        ) %>%
+        dplyr::rename(
+          area      = tidyselect::any_of(
+            c("province/state", "province_state")
+          ),
+          region    = tidyselect::any_of(c("country/region", "country_region")),
+          latitude  = tidyselect::any_of(c("latitude",  "lat")),
+          longitude = tidyselect::any_of(c("longitude", "long"))
         )
+      
+      if(any(colnames(day_data) == "fips")){
+        dplyr::mutate(
+          day_data,
+          "FIPS" = as.numeric(.data$fips)
+        ) %>%
+          dplyr::select(-"fips")
+      } else {
+        day_data
+      }
+      
     }
   ) %>%
   purrr::reduce(dplyr::bind_rows) %>%
-  dplyr::rename(
-    area        = "province/state",
-    region      = "country/region",
-    last_update = "last update"
-  ) %>%
   dplyr::mutate(
     region = dplyr::recode(
       .$region,
-      `Mainland China`             = "China",
-      `The Bahamas`                = "Bahamas",
-      `Bahamas, The`               = "Bahamas",
-      `Congo (Brazzaville)`        = "Congo",
-      `Congo (Kinshasa)`           = "Congo",
-      `Cote d'Ivoire`              = "Ivory Coast",
-      `Czech Republic`             = "Czechia",
-      `Holy See`                   = "Vatican City",
-      `The Gambia`                 = "Gambia",
-      `Gambia, The`                = "Gambia",
-      `Hong Kong SAR`              = "Hong Kong",
-      `Iran (Islamic Republic of)` = "Iran",
-      `Korea, South`               = "South Korea",
-      `Kosovo`                     = "Serbia",
-      `Macao SAR`                  = "Macao",
-      `Macau`                      = "Macao",
-      `North Ireland`              = "United Kingdom",
-      `occupied Palestinian territory` = "Palestine",
-      `Republic of Ireland`        = "Ireland",
-      `Republic of Korea`          = "South Korea",
-      `Republic of Moldova`        = "Moldova",
-      `Republic of the Congo`      = "Congo",
-      `Russian Federation`         = "Russia",
-      `St. Martin`                 = "Saint Martin",
-      `Taipei and environs`        = "Taiwan",
-      `Taiwan*`                    = "Taiwan",
-      `UK`                         = "United Kingdom",
-      `US`                         = "United States",
-      `Viet Nam`                   = "Vietnam"
+      `Mainland China`                       = "China",
+      `The Bahamas`                          = "Bahamas",
+      `Bahamas, The`                         = "Bahamas",
+      `Cape Verde`                           = "Cabo Verde",
+      `Congo (Brazzaville)`                  = "Congo",
+      `Congo (Kinshasa)`                     = "Congo",
+      `Cote d'Ivoire`                        = "Ivory Coast",
+      `Cruise Ship`                          = "Diamond Princess",
+      `Czech Republic`                       = "Czechia",
+      `Holy See`                             = "Vatican City",
+      `The Gambia`                           = "Gambia",
+      `Gambia, The`                          = "Gambia",
+      `Hong Kong SAR`                        = "Hong Kong",
+      `Iran (Islamic Republic of)`           = "Iran",
+      `Korea, South`                         = "South Korea",
+      `Kosovo`                               = "Serbia",
+      `Macao SAR`                            = "Macao",
+      `Macau`                                = "Macao",
+      `North Ireland`                        = "United Kingdom",
+      `West Bank and Gaza`                   = "occupied Palestinian territory",
+      `Republic of Ireland`                  = "Ireland",
+      `Republic of Korea`                    = "South Korea",
+      `Republic of Moldova`                  = "Moldova",
+      `Republic of the Congo`                = "Congo",
+      `Russian Federation`                   = "Russia",
+      `St. Martin`                           = "Saint Martin",
+      `Taipei and environs`                  = "Taiwan",
+      `Taiwan*`                              = "Taiwan",
+      `East Timor`                           = "Timor-Leste",
+      `UK`                                   = "United Kingdom",
+      `US`                                   = "United States",
+      `Viet Nam`                             = "Vietnam"
     )
   ) %>%
   dplyr::distinct_at(
@@ -89,10 +110,10 @@ country_codes <- xml2::read_html("https://www.iban.com/country-codes") %>%
       `Korea (the Republic of)`        = "South Korea",
       `Philippines (the)`              = "Philippines",
       `Russian Federation (the)`       = "Russia",
+      `Syrian Arab Republic`           = "Syria",
       `Viet Nam`                       = "Vietnam",
       `Côte d'Ivoire`                  = "Ivory Coast",
       `United Arab Emirates (the)`     = "United Arab Emirates",
-      `United Kingdom of Great Britain and Northern Ireland (the)` = "United Kingdom",
       `Iran (Islamic Republic of)`     = "Iran",
       `Republic of North Macedonia`    = "North Macedonia",
       `Dominican Republic (the)`       = "Dominican Republic",
@@ -100,13 +121,11 @@ country_codes <- xml2::read_html("https://www.iban.com/country-codes") %>%
       `Faroe Islands (the)`            = "Faroe Islands",
       `Palestine, State of`            = "Palestine",
       `Saint Martin (French part)`     = "Saint Martin",
-      `Congo (the Democratic Republic of the)` = "Congo",
       `Netherlands (the)`              = "Netherlands",
       `Holy See (the)`                 = "Vatican City",
       `Réunion`                        = "Reunion",
       `Cayman Islands (the)`           = "Cayman Islands",
       `Sudan (the)`                    = "Sudan",
-      `Venezuela (Bolivarian Republic of)` = "Venezuela",
       `Curaçao`                        = "Curacao",
       `Central African Republic (the)` = "Central African Republic",
       `Tanzania, United Republic of`   = "Tanzania",
@@ -115,12 +134,20 @@ country_codes <- xml2::read_html("https://www.iban.com/country-codes") %>%
       `Niger (the)`                    = "Niger",
       `Moldova (the Republic of)`      = "Moldova",
       `Brunei Darussalam`              = "Brunei",
-      `Bolivia (Plurinational State of)` = "Bolivia"
+      `Bolivia (Plurinational State of)`       = "Bolivia",
+      `Lao People's Democratic Republic (the)` = "Laos",
+      `Congo (the Democratic Republic of the)` = "Congo",
+      `Venezuela (Bolivarian Republic of)`     = "Venezuela",
+      `United Kingdom of Great Britain and Northern Ireland (the)` = 
+        "United Kingdom"
     )
   ) %>%
   dplyr::bind_rows(
     tibble::tibble(
-      "Country" = c("Cruise Ship", "Others", "Channel Islands")
+      "Country" = c(
+        "Channel Islands", "Diamond Princess", "occupied Palestinian territory",
+        "Others"
+      )
     )
   ) %>%
   dplyr::mutate(

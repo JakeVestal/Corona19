@@ -52,12 +52,18 @@ region_names_map <- function()(
 #' \tabular{lllllll}{
 #'   \strong{date}: Date for which the data apply. Derived from the filename of
 #'   the csv file from which the data in the rest of the columns is drawn.\cr
+#'   \strong{FIPS}: Unique identifier for US Counties. See the full table of
+#'   FIPS codes
+#'   \href{https://www.nrcs.usda.gov/wps/portal/nrcs/detail/or/programs/?cid=nrcs143_013697}{here}.\cr
+#'   \strong{admin2}: Name of FIPS region (county). Applies to US only, and is
+#'   not complete in the dataset; i.e., not every state's data is parsed by
+#'   individual county.\cr
 #'   \strong{area}: Same thing as \emph{province/state} in the original JHU
 #'   data, renamed so as to get rid of the awkward "/".\cr
 #'   \strong{region}: Same thing as \emph{country/region}, renamed for the same
 #'   reason as "\emph{area}".\cr
-#'   \strong{confirmed}, \strong{recovered}, \strong{deaths}: As (albiet not
-#'   very precisely) defined in the
+#'   \strong{confirmed}, \strong{recovered}, \strong{deaths}, \strong{active}: 
+#'   As (albiet not very precisely) defined in the
 #'   \href{https://github.com/CSSEGISandData/COVID-19/blob/5f3ba461a5a7ed5f72104e499804e31ca594b0b6/csse_covid_19_data/README.md}{JHU
 #'   data}.\cr
 #'   \strong{last_update}: Date-time stamp denoting when the information in the
