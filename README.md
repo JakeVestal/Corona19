@@ -4,6 +4,7 @@ Exploration of [Johns Hopkins' excellent COVID-19 data](https://github.com/CSSEG
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/JakeVestal/COVID-19.svg?branch=master)](https://travis-ci.org/JakeVestal/COVID-19)
+[![Travis build status](https://travis-ci.org/JakeVestal/Corona19.svg?branch=master)](https://travis-ci.org/JakeVestal/Corona19)
 <!-- badges: end -->
 
 <<<<<<< HEAD
